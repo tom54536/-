@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For You My Love</title>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;600&family=Charm:wght@700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #fff5f5;
+            --heart-red: #ff4d6d;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: var(--bg-color);
+            font-family: 'Prompt', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            transition: background 0.5s ease;
+        }
+
+        /* ตกแต่งการ์ด */
+        .container {
+            text-align: center;
+            z-index: 10;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 40px;
+            border-radius: 30px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.05);
+            backdrop-filter: blur(5px);
+            border: 2px solid white;
+            width: 320px;
+        }
+
+        /* รูปภาพความทรงจำ */
+        .photo-frame {
+            width: 200px;
+            height: 200px;
+            margin: 0 auto 20px;
+            border: 8px solid white;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            overflow: hidden;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .photo-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+
+        .photo-frame:hover img { transform: scale(1.1); }
+
+        h1 {
+            font-family: 'Charm', cursive;
+            color: var(--heart-red);
+            font-size: 2.5rem;
+            margin: 10px 0;
+        }
+
+        /* ปุ่มจดหมาย */
+        .letter-btn {
+            background: var(--heart-red);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 50px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 15px;
+            box-shadow: 0 4px 15px rgba(255, 77, 109, 0.3);
+        }
+
+        .letter-btn:hover {
+            transform: translateY(-3px) scale(1.05);
+            background: #ff758f;
+        }
+
+        /* Popup ข้อความ */
+        #overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 100;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .message-card {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            max-width: 80%;
+            text-align: center;
+            animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes popIn {
+            from { transform: scale(0.5); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        /* หัวใจที่เกิดจากการคลิก */
+        .click-heart {
+            position: absolute;
+            pointer-events: none;
+            color: var(--heart-red);
+            font-size: 20px;
+            animation: flyUp 1s forwards;
+            z-index: 99;
+        }
+
+        @keyframes flyUp {
+            0% { transform: translateY(0) scale(1); opacity: 1; }
+            100% { transform: translateY(-100px) scale(1.5); opacity: 0; }
+        }
+    </style>
+</head>
+<body onmousemove="changeBg(event)">
+
+    <div class="container">
+        <div class="photo-frame" onclick="nextPhoto()">
+            <img id="myPhoto" src="https://cdn-icons-png.flaticon.com/512/3211/3211431.png" alt="Memory">
+        </div>
+        <h1>Happy Day!</h1>
+        <p style="color: #888; font-size: 0.9rem;">ຄິກຮູບນີ້ເພື່ອປ່ຽນນນ <br> ຫລືຄິກທີ່ຈໍເພື່ອເກີດຄວາມຮັກທີ່ຕ້ອມມີໃຫ້ບິວ</p>
+        
+        <button class="letter-btn" onclick="openLetter()">ເປີດຈົດຫມາຍລັບ 🫣💌</button>
+    </div>
+
+    <div id="overlay" onclick="closeLetter()">
+        <div class="message-card">
+            <h2 style="color: #ff4d6d;">ໃຫ້ບິວສຸດທີ່ຮັກ❤️</h2>
+            <p id="letter-text">Loading...</p>
+            <p style="font-size: 0.8rem; color: #aaa;">(ກົດເພື່ອປິດ)</p>
+        </div>
+    </div>
+
+    <script>
+        // 1. ลิสต์รูปภาพ (เปลี่ยนลิงก์รูปคู่ของคุณที่นี่)
+        const photos = [
+            "https://ibb.co/C5658CkK",
+            "https://cdn-icons-png.flaticon.com/512/4213/4213641.png",
+            "https://cdn-icons-png.flaticon.com/512/10414/10414500.png"
+        ];
+        let photoIdx = 0;
+
+        function nextPhoto() {
+            photoIdx = (photoIdx + 1) % photos.length;
+            document.getElementById('myPhoto').src = photos[photoIdx];
+            createHeartEffect(window.innerWidth/2, window.innerHeight/2);
+        }
+
+        // 2. ลิสต์ข้อความในจดหมาย
+        const messages = [
+            "ຂອບໃຈທີ່ຢູ່ນຳຂ້ອຍໃນທຸກມື້ເດີ ເຈົ້າຄືສິ່ງທີ່ດີທີ່ສຸດທີ່ເຄີຍເກີດຂຶ້ນກັບຂ້ອຍ",
+            "ແຕ່ຢາກສິບອກວ່າຂ້ອຍຮັກເຈົ້າເດີຮັກເຈົ້າຫລາຍແລະຈະຫລາຍຂຶ້ນໃນທຸກໆມື້ເດີຈຸ໊ບໆ",
+            "ມື້ນີ້ເຈົ້າເປັນຈັງໃດເມື່ອຍບໍຖ້າເມື່ອຍຍິ້ມຫລາຍໆເດີ ຂ້ອຍເປັນກຳລັງໃຈໃຫ້ເຈົ້າສະເໝີແມ້ໃນມື້ທີ່ເຈົ້າທໍ້ຫລືອ່ອນແອຍັງມີຂ້ອຍຢູ່ບ່ອນນີ້ສະເໝີເດີ",
+            "ຕໍ່ໃຫ້ໂລກສິໝຸນໄປທາງໃດຂ້ອຍກະສິຍັງຢູ່ຂ້າງໆເຈົ້າບ່ອນນີ້ບໍ່ໄປໃສ ຕ້ອມຮັກບິວເດີຮັກທີ່ສຸດແລະຈະຮັກຕະຫລອດໄປ"
+        ];
+
+        function openLetter() {
+            document.getElementById('letter-text').innerText = messages[Math.floor(Math.random() * messages.length)];
+            document.getElementById('overlay').style.display = 'flex';
+        }
+
+        function closeLetter() {
+            document.getElementById('overlay').style.display = 'none';
+        }
+
+        // 3. คลิกแล้วหัวใจพุ่ง
+        document.addEventListener('mousedown', (e) => {
+            createHeartEffect(e.clientX, e.clientY);
+        });
+
+        function createHeartEffect(x, y) {
+            for(let i=0; i<5; i++) { // พุ่งออกมา 5 ดวง
+                const heart = document.createElement('div');
+                heart.className = 'click-heart';
+                heart.innerHTML = '❤️';
+                heart.style.left = x + (Math.random()*40 - 20) + 'px';
+                heart.style.top = y + (Math.random()*40 - 20) + 'px';
+                document.body.appendChild(heart);
+                setTimeout(() => heart.remove(), 1000);
+            }
+        }
+
+        // 4. ขยับเมาส์แล้วสีพื้นหลังเปลี่ยนเบาๆ
+        function changeBg(e) {
+            const x = Math.round((e.clientX / window.innerWidth) * 10);
+            const y = Math.round((e.clientY / window.innerHeight) * 10);
+            document.body.style.backgroundColor = `hsl(${340 + x}, 100%, ${92 + y}%)`;
+        }
+    </script>
+</body>
+</html>
