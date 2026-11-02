@@ -2,302 +2,283 @@
 <html lang="lo">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ຕາຕະລາງເວນຍາມປະຈຳອາທິດ - ระบบสุ่มเวรเรียน</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ຕາຕະລາງເວນຍາມປະຈຳອາທິດ</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Lao:wght@400;600;700&display=swap">
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Lao:wght@400;600;700&display=swap');
-
-  @page {
-    size: A4 landscape;
-    margin: 10mm;
-  }
-
-  *, *::before, *::after {
-    box-sizing: border-box;
-  }
-
-  body {
-    font-family: 'Noto Sans Lao', 'Phetsarath OT', 'Saysettha OT', sans-serif;
-    background-color: #f8fafc;
-    color: #0f172a;
-    margin: 0;
-    padding: 20px;
-  }
-
-  /* ส่วนของปุ่มควบคุม (จะไม่แสดงผลเวลาพิมพ์) */
-  .control-panel {
-    max-width: 900px;
-    margin: 0 auto 20px auto;
-    background: #ffffff;
-    padding: 15px 20px;
-    border-radius: 12px;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-    display: flex;
-    gap: 12px;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  .btn {
-    font-family: inherit;
-    font-size: 14px;
-    font-weight: 600;
-    padding: 10px 18px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-  }
-
-  .btn-primary {
-    background-color: #2563eb;
-    color: white;
-  }
-  .btn-primary:hover { background-color: #1d4ed8; }
-
-  .btn-success {
-    background-color: #059669;
-    color: white;
-  }
-  .btn-success:hover { background-color: #047857; }
-
-  /* คอนเทนเนอร์กระดาษ A4 */
-  .paper {
-    width: 277mm;
-    min-height: 190mm;
-    margin: 0 auto;
-    background: #ffffff;
-    padding: 15mm;
-    border-radius: 8px;
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-  }
-
-  .header {
-    text-align: center;
-    margin-bottom: 15px;
-  }
-
-  .title {
-    font-size: 24pt;
-    font-weight: 700;
-    color: #1e3a8a;
-    margin: 0 0 10px 0;
-    outline: none;
-  }
-
-  .meta-table {
-    width: 100%;
-    margin-bottom: 15px;
-    border-collapse: collapse;
-  }
-
-  .meta-table td {
-    padding: 4px 8px;
-    font-size: 11pt;
-    font-weight: 600;
-    color: #334155;
-  }
-
-  .editable-inline {
-    border-bottom: 1px dotted #94a3b8;
-    padding: 0 5px;
-    outline: none;
-    display: inline-block;
-    min-width: 80px;
-  }
-
-  table.main-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 20px;
-  }
-
-  table.main-table th, table.main-table td {
-    border: 1px solid #cbd5e1;
-    padding: 10px 8px;
-    text-align: center;
-    font-size: 11pt;
-    vertical-align: middle;
-  }
-
-  table.main-table th {
-    background-color: #1e3a8a;
-    color: #ffffff;
-    font-weight: 700;
-  }
-
-  .day-col {
-    background-color: #f1f5f9;
-    font-weight: 700;
-    color: #0f172a;
-    width: 10%;
-  }
-
-  .break-col {
-    width: 10%;
-    background-color: #f8fafc;
-    color: #64748b;
-    font-weight: 700;
-  }
-
-  .slot {
-    height: 48px;
-    outline: none;
-    transition: background 0.2s;
-  }
-  .slot:hover {
-    background-color: #f8fafc;
-  }
-
-  .footer-container {
-    width: 100%;
-    margin-top: 35px;
-  }
-
-  .footer-table {
-    width: 100%;
-    border-collapse: collapse;
-  }
-
-  .footer-table td {
-    width: 50%;
-    text-align: center;
-    vertical-align: top;
-    font-size: 11pt;
-    font-weight: 700;
-    color: #1e293b;
-    outline: none;
-  }
-
-  /* ซ่อนปุ่มต่างๆ เวลาสั่งพิมพ์ */
-  @media print {
-    body {
-      background: none;
-      padding: 0;
-    }
-    .control-panel {
-      display: none !important;
-    }
-    .paper {
-      width: 100%;
-      min-height: auto;
-      box-shadow: none;
-      padding: 0;
-    }
-    .slot:hover {
-      background: none;
-    }
-  }
+:root{--bg:#f4f6fb;--card:#fff;--tx:#1b2333;--mut:#6b7488;--pri:#2f5bea;--bd:#d5dbe8;--today:#fff4c7;--ok:#e7f6ec}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font-family:'Noto Sans Lao','Noto Sans Thai',system-ui,sans-serif;padding:12px}
+.wrap{max-width:980px;margin:auto}
+.bar{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px;align-items:center}
+button{font:inherit;border:0;border-radius:8px;padding:8px 12px;background:var(--pri);color:#fff;cursor:pointer}
+button.sec{background:#fff;color:var(--tx);border:1px solid var(--bd)}
+.sp{flex:1}
+.banner{background:var(--ok);border:1px solid #9bd3ac;border-radius:12px;padding:12px 14px;margin-bottom:12px}
+.banner b{font-size:1.05em}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:14px;overflow-x:auto}
+h1{text-align:center;font-size:1.3rem;margin:4px 0 10px}
+.head{display:flex;flex-wrap:wrap;gap:14px;justify-content:center;margin-bottom:10px;color:var(--mut)}
+table{border-collapse:collapse;width:100%;min-width:720px}
+th,td{border:1px solid var(--bd);padding:8px;text-align:center;vertical-align:middle}
+th{background:#eef2fb;font-weight:600}
+tr.today td{background:var(--today);font-weight:600}
+tr.today td.day::after{content:" ⭐"}
+.brk{background:#f7f7f9;color:var(--mut);writing-mode:vertical-rl;letter-spacing:4px}
+.sign{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:22px;text-align:center}
+.sign div{padding-top:6px}
+.sign .line{height:56px}
+.sign .nm{min-height:1.4em}
+.edit [contenteditable]{outline:1px dashed #9aa7d6;border-radius:4px;min-height:1.4em}
+.edit [contenteditable]:focus{background:#eef3ff}
+.only-edit{display:none}.edit .only-edit{display:inline-block}.edit .only-view{display:none}
+.note{color:var(--mut);font-size:.85rem;margin-top:8px}
+@media print{body{background:#fff;padding:0}.bar,.banner,.note{display:none!important}.card{border:0}}
 </style>
 </head>
 <body>
-
-<!-- แผงควบคุมระบบสุ่มและสั่งพิมพ์ -->
-<div class="control-panel">
-  <div>
-    <strong>ຕາຕະລາງເວນຍາມ</strong>
-    <span style="font-size: 12px; color: #64748b; display: block;">คลิกที่ช่องในตารางเพื่อพิมพ์แก้ไขได้ตามใจชอบ</span>
+<div class="wrap">
+ <div class="bar">
+  <button id="shuf" class="only-edit">🔀 ຈັດສຸ່ມນັກຮຽນ</button>
+  <button id="shufT" class="only-edit sec">🔀 ສຸ່ມຄູຮັບຜິດຊອບ</button>
+  <button id="undo" class="only-edit sec">↩️ ຍ້ອນກັບ</button>
+  <button id="exp" class="only-edit">💾 ບັນທຶກເປັນໄຟລ໌ໃໝ່</button>
+  <button id="waT" class="sec">📤 ສົ່ງເວນມື້ນີ້ເຂົ້າ WhatsApp</button>
+  <button id="waW" class="sec">📤 ສົ່ງເວນທັງອາທິດ</button>
+  <button id="alm" class="sec only-edit">⏰ ຕັ້ງເຕືອນຕົນເອງໃຫ້ສົ່ງ (.ics)</button>
+  <button id="cal" class="sec">📅 ເພີ່ມເຂົ້າປະຕິທິນມືຖື (.ics)</button>
+  <button id="prt" class="sec">🖨️ ພິມ / PDF</button>
+  <span class="sp"></span>
+  <button id="lock" class="sec"></button>
+ </div>
+ <div id="banner" class="banner"></div>
+ <div class="card">
+  <h1>ຕາຕະລາງເວນຍາມປະຈຳອາທິດ</h1>
+  <div class="head">
+   <span>ອາທິດທີ່: <span data-h="w" class="ce"></span></span>
+   <span>ເດືອນ: <span data-h="m" class="ce"></span></span>
+   <span>ວັນທີ: <span data-h="d" class="ce"></span></span>
+   <span>ປີ <span data-h="y" class="ce"></span></span>
   </div>
-  <div style="display: flex; gap: 10px;">
-    <button class="btn btn-primary" onclick="shuffleDuty()">🔀 ຈັດສຸ່ມເວນຍາມ </button>
-    <button class="btn btn-success" onclick="window.print()">🖨️ ພິມອອກ / ບັນທຶກ PDF</button>
+  <table>
+   <thead><tr><th>ວັນ</th><th>ເວລາ<br>8:00-10:00</th><th>ເວລາ<br>10:00-11:30</th><th>ພັກຜ່ອນ</th><th>ເວລາ<br>13:30-16:00</th><th>ຜູ້ຮັບຜິດຊອບ<br>ກິດຈະກຳ</th></tr></thead>
+   <tbody id="tb"></tbody>
+  </table>
+  <div class="sign">
+   <div>ຜູ້ອຳນວຍການ<div class="line"></div><div class="nm ce" data-s="0"></div></div>
+   <div>ຫົວໜ້າໜ່ວຍງານຄຸ້ມຄອງນັກຮຽນ<div class="line"></div><div class="nm ce" data-s="1"></div></div>
+   <div>ຈຸໜ່ວຍງານປ້ອງກັນ<div class="line"></div><div class="nm ce" data-s="2"></div></div>
   </div>
+ </div>
+ <p class="note only-edit">ໂໝດແກ້ໄຂ: ຄລິກຊ່ອງເພື່ອພິມ. ແກ້ແລ້ວກົດ "ບັນທຶກເປັນໄຟລ໌ໃໝ່" ແລ້ວເອົາໄຟລ໌ໄປອັບໂຫລດທັບ index.html ໃນ GitHub ຄົນອື່ນຈຶ່ງຈະເຫັນ.</p>
 </div>
 
-<!-- แผ่นกระดาษ A4 แนวนอน -->
-<div class="paper">
-  <div class="header">
-    <h1 class="title" contenteditable="true">ຕາຕະລາງເວນຍາມປະຈຳອາທິດ</h1>
-  </div>
-
-  <table class="meta-table">
-    <tr>
-      <td style="width: 25%;">ອາທິດທີ: <span class="editable-inline" contenteditable="true">............</span></td>
-      <td style="width: 25%;">ເດືອນ: <span class="editable-inline" contenteditable="true">............</span></td>
-      <td style="width: 25%;">ວັນທີ: <span class="editable-inline" contenteditable="true">............</span></td>
-      <td style="width: 25%;">ປີ 20<span class="editable-inline" contenteditable="true">......</span></td>
-    </tr>
-  </table>
-
-  <table class="main-table">
-    <thead>
-      <tr>
-        <th style="width: 10%;">ວັນ</th>
-        <th style="width: 22.5%;">ເວລາ<br>8:00-10:00</th>
-        <th style="width: 22.5%;">ເວລາ<br>10:00-11:30</th>
-        <th style="width: 10%;">ພັກຜ່ອນ</th>
-        <th style="width: 22.5%;">ເວລາ<br>13:30-16:00</th>
-        <th style="width: 12.5%;">ຜູ້ຮັບຜິດຊອບ<br>ກິດຈະກຳ</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td class="day-col">ຈັນ</td>
-        <td class="slot" contenteditable="true">ທ. ໝີນ້ອຍ ມໍ5</td>
-        <td class="slot" contenteditable="true">ນ. ປູຄຳ ມໍ5</td>
-        <td rowspan="5" class="break-col">ພັກຜ່ອນ</td>
-        <td class="slot" contenteditable="true">ນ. ຕານ້ອຍ ມໍ5</td>
-        <td class= contenteditable="true">ອ.ຈ ກໍລະກາ</td>
-      </tr>
-      <tr>
-        <td class="day-col">ອັງຄານ</td>
-        <td class="slot" contenteditable="true">ນ. ແອນນາ ມໍ5</td>
-        <td class="slot" contenteditable="true">ນ. ການຈະນາ ມໍ7</td>
-        <td class="slot" contenteditable="true">ນ. ແຄ໋ນດີ່ ມໍ6</td>
-        <td class= contenteditable="true">ອ.ຈ ກໍລະກາ</td>
-      </tr>
-      <tr>
-        <td class="day-col">ພຸດ</td>
-        <td class="slot" contenteditable="true">ນ. ຕົ້ນຫອມ ມໍ5</td>
-        <td class="slot" contenteditable="true">ນ. ສະດາ ມໍ4</td>
-        <td class="slot" contenteditable="true">ນ. ເຂົ້າຫອມ ມໍ5</td>
-        <td class= contenteditable="true">ອ.ຈ ແສງຈັນ</td>
-      </tr>
-      <tr>
-        <td class="day-col">ພະຫັດ</td>
-        <td class="slot" contenteditable="true">ນ. ເຮນາ ມໍ6</td>
-        <td class="slot" contenteditable="true">ນ. ໄອດາ ມໍ6</td>
-        <td class="slot" contenteditable="true">ນ. ສຸລິນດາ ມໍ5</td>
-        <td class= contenteditable="true">ອ.ຈ ແສງຈັນ</td>
-      </tr>
-      <tr>
-        <td class="day-col">ສຸກ</td>
-        <td class="slot" contenteditable="true">ທ. ເສືອ ມໍ7</td>
-        <td class="slot" contenteditable="true">ນ. ເມນີ່ ມໍ5</td>
-        <td class="slot" contenteditable="true">ທ. ນຸໄທ ມໍ7</td>
-        <td class= contenteditable="true">ອ.ຈ ພູເງີນ</td>
-      </tr>
-    </tbody>
-  </table>
-
-  <div class="footer-container">
-    <table class="footer-table">
-      <tr>
-        <td contenteditable="true" style="text-align: left; padding-left: 30px;">ຜູ້ອຳນວຍການ                                                         ຫົວໜ້າໜ່ວຍງານຄຸ້ມຄອງນັກຮຽນ</td>
-        <td contenteditable="true" style="text-align: right; padding-right: 25px;">ຈູໜ່ວຍງານປ້ອງກັນ</td>
-      </tr>
-    </table>
-  </div>
-</div>
-
-<script>
-  function shuffleDuty() {
-    const slots = document.querySelectorAll('.slot');
-    let values = Array.from(slots).map(slot => slot.innerText.trim());
-
-    for (let i = values.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [values[i], values[j]] = [values[j], values[i]];
-    }
-
-    slots.forEach((slot, index) => {
-      slot.innerText = values[index];
-    });
-  }
+<script id="data" type="application/json">
+{"head":{"w":"","m":"","d":"","y":""},
+"rows":[
+{"s":["ທ. ໝີນ້ອຍ ມໍ5","ນ. ປູຄຳ ມໍ5","ນ. ຕານ້ອຍ ມໍ5"],"t":"ອ.ຈ ກໍລະກາ"},
+{"s":["ນ. ແອນນາ ມໍ5","ນ. ການຈະນາ ມໍ7","ນ. ແຄ໋ນດີ່ ມໍ6"],"t":"ອ.ຈ ກໍລະກາ"},
+{"s":["ນ. ຕົ້ນຫອມ ມໍ5","ນ. ສະດາ ມໍ4","ນ. ເຂົ້າຫອມ ມໍ5"],"t":"ອ.ຈ ແສງຈັນ"},
+{"s":["ນ. ເຮນາ ມໍ6","ນ. ໄອດາ ມໍ6","ນ. ສຸລິນດາ ມໍ5"],"t":"ອ.ຈ ແສງຈັນ"},
+{"s":["ທ. ເສືອ ມໍ7","ນ. ເມນີ່ ມໍ5","ທ. ນຸໄທ ມໍ7"],"t":"ອ.ຈ ພູເງີນ"}],
+"prev":null,"sign":["","",""]}
 </script>
 
+<script>
+const PIN="1234"; // ← ປ່ຽນລະຫັດນີ້ກ່ອນອັບໂຫລດ
+const DAYS=["ຈັນ","ອັງຄານ","ພຸດ","ພະຫັດ","ສຸກ"];
+const ALLDAY=["ອາທິດ","ຈັນ","ອັງຄານ","ພຸດ","ພະຫັດ","ສຸກ","ເສົາ"];
+const LS="duty_v2";
+const $=s=>document.querySelector(s);
+let S=JSON.parse($("#data").textContent);
+let editing=sessionStorage.getItem("edit")==="1";
+let hist=[];
+if(editing){try{const l=JSON.parse(localStorage.getItem(LS));if(l)S=l}catch(e){}}
+
+function save(){try{localStorage.setItem(LS,JSON.stringify(S))}catch(e){}}
+function snap(){hist.push(JSON.stringify(S));if(hist.length>30)hist.shift()}
+
+function render(){
+ document.body.classList.toggle("edit",editing);
+ $("#lock").textContent=editing?"🔓 ອອກຈາກໂໝດແກ້ໄຂ":"🔒 ແກ້ໄຂ (ເຈົ້າຂອງ)";
+ const ce=editing?"true":"false";
+ $("#tb").innerHTML=S.rows.map((r,i)=>`<tr data-i="${i}">
+  <td class="day">${DAYS[i]}</td>
+  ${[0,1].map(k=>`<td contenteditable="${ce}" data-r="${i}" data-k="${k}">${esc(r.s[k])}</td>`).join("")}
+  ${i==0?'<td class="brk" rowspan="5">ພັກຜ່ອນ</td>':""}
+  <td contenteditable="${ce}" data-r="${i}" data-k="2">${esc(r.s[2])}</td>
+  <td contenteditable="${ce}" data-r="${i}" data-t="1">${esc(r.t)}</td></tr>`).join("");
+ autoHead();
+ document.querySelectorAll("[data-s]").forEach(e=>{e.textContent=S.sign[e.dataset.s]||"";e.contentEditable=ce});
+ markToday();
+}
+const MONTHS=["ມັງກອນ","ກຸມພາ","ມີນາ","ເມສາ","ພຶດສະພາ","ມິຖຸນາ","ກໍລະກົດ","ສິງຫາ","ກັນຍາ","ຕຸລາ","ພະຈິກ","ທັນວາ"];
+function weekMonday(){const n=new Date(),dow=n.getDay();return new Date(n.getFullYear(),n.getMonth(),n.getDate()+(dow===0?1:dow===6?2:1-dow))}
+function autoHead(){
+ const mon=weekMonday();
+ const fri=new Date(mon.getFullYear(),mon.getMonth(),mon.getDate()+4);
+ const first=new Date(mon.getFullYear(),mon.getMonth(),1);
+ const off=(first.getDay()+6)%7; // Mon=0
+ const w=Math.floor((mon.getDate()-1+off)/7)+1;
+ const m=mon.getMonth()===fri.getMonth()?MONTHS[mon.getMonth()]:MONTHS[mon.getMonth()]+" - "+MONTHS[fri.getMonth()];
+ const y=mon.getFullYear()===fri.getFullYear()?mon.getFullYear():mon.getFullYear()+" - "+fri.getFullYear();
+ const H={w:w,m:m,d:mon.getDate()+" - "+fri.getDate(),y:y};
+ document.querySelectorAll("[data-h]").forEach(e=>{e.textContent=H[e.dataset.h];e.contentEditable="false"});
+}
+const esc=s=>String(s).replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));
+
+document.addEventListener("input",e=>{
+ const t=e.target;if(!editing)return;
+ if(t.dataset.r!==undefined){const r=S.rows[t.dataset.r];if(t.dataset.t)r.t=t.textContent.trim();else r.s[t.dataset.k]=t.textContent.trim()}
+ else if(t.dataset.h)S.head[t.dataset.h]=t.textContent.trim();
+ else if(t.dataset.s)S.sign[t.dataset.s]=t.textContent.trim();
+ save();
+});
+
+/* ---------- ເຕືອນເວນຕາມເວລາຂອງແຕ່ລະຊ່ອງ ---------- */
+const SL=[["8:00","10:00"],["10:00","11:30"],["13:30","16:00"]]; // ເວລາແຕ່ລະຊ່ອງ
+const LEAD=10; // ເຕືອນລ່ວງໜ້າ (ນາທີ)
+let timers=[];
+function todayIdx(){const d=new Date().getDay();return d>=1&&d<=5?d-1:-1}
+function beep(){try{const c=new (window.AudioContext||window.webkitAudioContext)(),o=c.createOscillator();o.connect(c.destination);o.frequency.value=880;o.start();setTimeout(()=>{o.stop();c.close()},400)}catch(e){}}
+function toast(t,b){
+ const d=document.createElement("div");
+ d.style.cssText="position:fixed;top:12px;left:50%;transform:translateX(-50%);z-index:9;background:#2f5bea;color:#fff;padding:14px 18px;border-radius:12px;box-shadow:0 6px 20px #0004;max-width:90vw;text-align:center";
+ d.innerHTML=`<b>🔔 ${esc(t)}</b><br>${esc(b)}`;d.onclick=()=>d.remove();
+ document.body.appendChild(d);setTimeout(()=>d.remove(),30000);
+}
+function alertUser(t,b){
+ toast(t,b);beep();
+ try{if("Notification" in window&&Notification.permission==="granted")new Notification(t,{body:b})}catch(e){}
+}
+function schedule(){
+ timers.forEach(clearTimeout);timers=[];
+ const i=todayIdx();if(i<0)return;const now=Date.now();
+ SL.forEach((t,k)=>{
+  const name=S.rows[i].s[k];if(!name)return;
+  const [h,m]=t[0].split(":").map(Number),at=new Date();at.setHours(h,m,0,0);
+  [[+at-LEAD*60000,`ອີກ ${LEAD} ນາທີ ຈະເຖິງເວລາເວນ`],[+at,"ເຖິງເວລາເວນແລ້ວ"]].forEach(([w,msg])=>{
+   if(w>now)timers.push(setTimeout(()=>alertUser(msg,`${name} (${t[0]}-${t[1]})`),w-now));
+  });
+ });
+}
+function markToday(){
+ const i=todayIdx(),dn=ALLDAY[new Date().getDay()],b=$("#banner");
+ document.querySelectorAll("#tb tr").forEach(tr=>tr.classList.toggle("today",+tr.dataset.i===i));
+ if(i>=0){
+  b.innerHTML=`<b>📢 ມື້ນີ້ວັນ${dn} ເວນຂອງໃຜ</b><br>`+SL.map((t,k)=>`${t[0]}-${t[1]} : <b>${esc(S.rows[i].s[k]||"-")}</b>`).join("<br>")+`<br><small>ຄູຮັບຜິດຊອບ: ${esc(S.rows[i].t)}</small>`;
+ }else{
+  b.innerHTML=`<b>ມື້ນີ້ວັນ${dn} – ບໍ່ມີເວນ</b><br>ວັນຈັນເວນ: ${esc(S.rows[0].s.filter(Boolean).join(" • "))}`;
+ }
+ if("Notification" in window&&Notification.permission==="default"){
+  b.innerHTML+=`<br><button id="ntf" style="margin-top:8px">🔔 ເປີດການແຈ້ງເຕືອນ</button>`;
+  $("#ntf").onclick=()=>Notification.requestPermission().then(markToday);
+ }
+ b.innerHTML+=`<br><small>ເຕືອນ ${LEAD} ນາທີກ່ອນເລີ່ມ ແລະ ຕອນເລີ່ມ (ຕ້ອງເປີດໜ້ານີ້ຄ້າງໄວ້)</small>`;
+ schedule();
+}
+function icsFile(){
+ const mon=weekMonday(),p=n=>String(n).padStart(2,"0"),esc2=x=>String(x).replace(/[,;]/g," ");
+ const f=(d,hm)=>{const [h,m]=hm.split(":");return`${d.getFullYear()}${p(d.getMonth()+1)}${p(d.getDate())}T${p(h)}${p(m)}00`};
+ const stamp=new Date().toISOString().replace(/[-:]|\.\d+/g,"");
+ const L=["BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//duty//LO","CALSCALE:GREGORIAN"];
+ S.rows.forEach((r,i)=>{
+  const d=new Date(mon.getFullYear(),mon.getMonth(),mon.getDate()+i);
+  SL.forEach((t,k)=>{if(!r.s[k])return;
+   L.push("BEGIN:VEVENT",`UID:duty-${f(d,"0:00")}-${k}@duty`,`DTSTAMP:${stamp}`,
+    `DTSTART:${f(d,t[0])}`,`DTEND:${f(d,t[1])}`,`SUMMARY:ເວນ: ${esc2(r.s[k])}`,`DESCRIPTION:ຄູ ${esc2(r.t)}`,
+    "BEGIN:VALARM",`TRIGGER:-PT${LEAD}M`,"ACTION:DISPLAY","DESCRIPTION:ເວນ","END:VALARM","END:VEVENT");
+  });
+ });
+ L.push("END:VCALENDAR");
+ const a=document.createElement("a");
+ a.href=URL.createObjectURL(new Blob([L.join("\r\n")],{type:"text/calendar"}));
+ a.download="duty-week.ics";a.click();
+}
+$("#cal").onclick=icsFile;
+
+
+/* ---------- ສົ່ງເຂົ້າ WhatsApp ---------- */
+const SEND_TIME="07:30"; // ເວລາເຕືອນຕົນເອງໃຫ້ສົ່ງຂໍ້ຄວາມ
+function dayLines(i){
+ const r=S.rows[i];
+ return SL.map((t,k)=>`${t[0]}-${t[1]}: ${r.s[k]||"-"}`).join("\n")+`\nຄູ: ${r.t}`;
+}
+function waSend(text){window.open("https://wa.me/?text="+encodeURIComponent(text),"_blank")}
+$("#waT").onclick=()=>{
+ const i=todayIdx();
+ waSend(i>=0?`📢 ເວນມື້ນີ້ ວັນ${DAYS[i]}\n${dayLines(i)}`:`📢 ເວນວັນຈັນ (ອາທິດໜ້າ)\n${dayLines(0)}`);
+};
+$("#waW").onclick=()=>{
+ waSend("📅 ຕາຕະລາງເວນຍາມອາທິດນີ້\n\n"+S.rows.map((r,i)=>`ວັນ${DAYS[i]}\n${dayLines(i)}`).join("\n\n"));
+};
+$("#alm").onclick=()=>{
+ const mon=weekMonday(),p=n=>String(n).padStart(2,"0"),[h,m]=SEND_TIME.split(":");
+ const d=`${mon.getFullYear()}${p(mon.getMonth()+1)}${p(mon.getDate())}T${p(h)}${p(m)}00`;
+ const stamp=new Date().toISOString().replace(/[-:]|\.\d+/g,"");
+ const L=["BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//duty//LO","BEGIN:VEVENT","UID:duty-send@duty","DTSTAMP:"+stamp,
+  "DTSTART:"+d,"DTEND:"+d.slice(0,9)+p(h)+p(+m+15)+"00","RRULE:FREQ=WEEKLY;BYDAY=MO,TU,WE,TH,FR",
+  "SUMMARY:ສົ່ງເວນມື້ນີ້ເຂົ້າກຸ່ມ WhatsApp","BEGIN:VALARM","TRIGGER:PT0M","ACTION:DISPLAY","DESCRIPTION:ສົ່ງເວນ","END:VALARM","END:VEVENT","END:VCALENDAR"];
+ const a=document.createElement("a");
+ a.href=URL.createObjectURL(new Blob([L.join("\r\n")],{type:"text/calendar"}));
+ a.download="send-reminder.ics";a.click();
+};
+
+/* ---------- ສຸ່ມ (ບໍ່ໃຫ້ຢູ່ຊ່ອງເກົ່າ ແລະ ບໍ່ກັບໄປຊ່ອງຮອບກ່ອນ) ---------- */
+function shuffleAvoid(cur,prev){
+ const n=cur.length;let best=null,bc=1e9;
+ for(let t=0;t<3000;t++){
+  const a=cur.slice();
+  for(let i=n-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}
+  let c=0;for(let i=0;i<n;i++){if(a[i]===cur[i])c+=2;if(prev&&a[i]===prev[i])c+=1}
+  if(c<bc){bc=c;best=a;if(c===0)break}
+ }
+ return best;
+}
+$("#shuf").onclick=()=>{
+ snap();
+ const cur=S.rows.flatMap(r=>r.s);
+ const next=shuffleAvoid(cur,S.prev);
+ S.prev=cur;
+ S.rows.forEach((r,i)=>r.s=next.slice(i*3,i*3+3));
+ save();render();
+};
+$("#shufT").onclick=()=>{
+ snap();
+ const cur=S.rows.map(r=>r.t),next=shuffleAvoid(cur,S.prevT||null);
+ S.prevT=cur;S.rows.forEach((r,i)=>r.t=next[i]);save();render();
+};
+$("#undo").onclick=()=>{if(!hist.length)return;S=JSON.parse(hist.pop());save();render()};
+
+/* ---------- ບັນທຶກເປັນໄຟລ໌ໃໝ່ ---------- */
+$("#exp").onclick=()=>{
+ const clone=document.documentElement.cloneNode(true);
+ const out=Object.assign({},S);delete out.prev;out.prev=S.prev;
+ clone.querySelector("#data").textContent=JSON.stringify(out);
+ const html="<!DOCTYPE html>\n"+clone.outerHTML;
+ const a=document.createElement("a");
+ a.href=URL.createObjectURL(new Blob([html],{type:"text/html"}));
+ a.download="index.html";a.click();
+};
+$("#prt").onclick=()=>print();
+function enterEdit(){
+ editing=true;sessionStorage.setItem("edit","1");
+ try{const l=JSON.parse(localStorage.getItem(LS));if(l)S=l}catch(e){}
+ render();
+}
+$("#lock").onclick=()=>{
+ if(editing){editing=false;sessionStorage.removeItem("edit");S=JSON.parse($("#data").textContent);render();return}
+ if($("#pinbox")){$("#pinin").focus();return}
+ const d=document.createElement("div");d.id="pinbox";
+ d.style.cssText="position:fixed;inset:0;background:#0006;z-index:20;display:flex;align-items:center;justify-content:center";
+ d.innerHTML='<div style="background:#fff;padding:18px;border-radius:12px;width:280px;text-align:center"><b>ໃສ່ລະຫັດຜ່ານ</b><br><input id="pinin" type="password" inputmode="numeric" autocomplete="off" style="font:inherit;width:100%;margin:10px 0;padding:8px;border:1px solid #d5dbe8;border-radius:8px"><div id="pinerr" style="color:#c0392b;min-height:1.3em"></div><button id="pinok">ຕົກລົງ</button> <button id="pinno" class="sec">ຍົກເລີກ</button></div>';
+ document.body.appendChild(d);
+ const go=()=>{if($("#pinin").value===PIN){d.remove();enterEdit()}else{$("#pinerr").textContent="ລະຫັດບໍ່ຖືກ";$("#pinin").value=""}};
+ $("#pinok").onclick=go;$("#pinno").onclick=()=>d.remove();
+ $("#pinin").addEventListener("keydown",e=>{if(e.key==="Enter")go()});
+ $("#pinin").focus();
+};
+render();
+</script>
 </body>
 </html>
